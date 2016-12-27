@@ -1,0 +1,20 @@
+{
+  "name": "mindful",
+  "version": "1.0.0",
+  "description": "A state manager for React.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "React",
+    "Redux",
+    "state",
+    "manager",
+    "state=manager",
+    "management",
+    "state-management"
+  ],
+  "author": "Eric Zolayvar",
+  "license": "MIT"
+}
