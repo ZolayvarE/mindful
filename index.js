@@ -1,6 +1,6 @@
 const storage = {};
 
-const persistentStorage = JSON.parse(localStorage._mindful || '{}') || {};
+const persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
 
 const _updateStorage = (key, value) => {
   if (storage[key] === undefined) {
@@ -35,18 +35,24 @@ const validateInput = (input, value) => {
 };
 
 const subscribeToValue = (input, callback) => {
+  if (!storage[input]) {
+    _updateStorage(input, undefined);
+  }
+
   if (storage[input] && storage[input].callbacks) {
     storage[input].callbacks.push(callback);
-  } else {
-    throw new Error('Could not find the item: "' + input + '" in storage');
   }
 };
 
-const updateStorage = (input, value) => {
+const setStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
     _updateStorage(key, input[key]);
   }
+};
+
+const updateStorage = (input, callback) => {
+  setStorage(input, callback(storage[input].value));
 };
 
 const updatePersistentStorage = (input, value) => {
@@ -55,34 +61,23 @@ const updatePersistentStorage = (input, value) => {
     _updateStorage(key, input[key]);
     persistentStorage[key] = input[key];
   }
-  localStorage._mindful = JSON.stringify(persistentStorage);
-};
-
-const clearPersistentStorage = (input) => {
-  if (input === undefined) {
-    localStorage.removeItem('_mindful');
-    for (var key in persistentStorage) {
-      delete persistentStorage[key];
-    }
-  } else {
-    delete persistentStorage[input];
-    localStorage._mindful = JSON.stringify(persistentStorage);
-  }
+  localStorage.mindful = JSON.stringify(persistentStorage);
 };
 
 const searchStorage = (input) => {
   if (storage[input] !== undefined) {
     return storage[input].value;
-  } else {
-    console.error(new Error('Could not find the item: "' + input + '" in storage'));
   }
 };
 
 const clearStorage = (input) => {
   if (storage[input]) {
-    delete storage[input];
-  } else if (persistentStorage[input]) {
+    setStorage(input, undefined);
+  }
+
+  if (persistentStorage[input]) {
     delete persistentStorage[input];
+    localStorage.mindful = JSON.stringify(persistentStorage);
   }
 };
 
@@ -111,11 +106,12 @@ const registerComponent = (component, ...keys) => {
 };
 
 const mindful = registerComponent;
-mindful.set = updateStorage;
+mindful.set = setStorage;
 mindful.get = searchStorage;
+mindful.update = updateStorage;
 mindful.remove = clearStorage;
 mindful.retain = updatePersistentStorage;
-mindful.forget = clearPersistentStorage;
+mindful.forget = clearStorage;
 mindful.subscribe = registerComponent;
 
 module.exports = mindful;
