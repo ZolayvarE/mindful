@@ -34,16 +34,6 @@ const validateInput = (input, value) => {
   }
 };
 
-const subscribeToValue = (input, callback) => {
-  if (!storage[input]) {
-    _updateStorage(input, undefined);
-  }
-
-  if (storage[input] && storage[input].callbacks) {
-    storage[input].callbacks.push(callback);
-  }
-};
-
 const setStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
@@ -51,8 +41,24 @@ const setStorage = (input, value) => {
   }
 };
 
+const subscribeToValue = (input, callback) => {
+  if (!storage[input]) {
+    setStorage(input, undefined);
+  }
+
+  if (storage[input] && storage[input].callbacks) {
+    storage[input].callbacks.push(callback);
+  }
+};
+
 const updateStorage = (input, callback) => {
   setStorage(input, callback(storage[input].value));
+};
+
+const toggleStorage = function (input) {
+  updateStorage(function (value) {
+    return !value;
+  });
 };
 
 const updatePersistentStorage = (input, value) => {
@@ -107,11 +113,11 @@ const registerComponent = (component, ...keys) => {
 
 const mindful = registerComponent;
 mindful.set = setStorage;
-mindful.get = searchStorage;
-mindful.update = updateStorage;
-mindful.remove = clearStorage;
 mindful.retain = updatePersistentStorage;
+mindful.update = updateStorage;
+mindful.get = searchStorage;
 mindful.forget = clearStorage;
+mindful.toggle = toggleStorage;
 mindful.subscribe = registerComponent;
 
 module.exports = mindful;
