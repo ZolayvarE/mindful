@@ -18,7 +18,7 @@ const validateInput = (input, value) => {
 };
 
 
-const _updateStorage = (key, value) => {
+const _upsert = (key, value) => {
   if (storage[key] === undefined) {
     storage[key] = {
       value: value,
@@ -33,17 +33,23 @@ const _updateStorage = (key, value) => {
 };
 
 
-const setStorage = (input, value) => {
+const setValueInStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
-    _updateStorage(key, input[key]);
+    _upsert(key, input[key]);
+  }
+};
+
+const searchForValueInStorage = (input) => {
+  if (storage[input] !== undefined) {
+    return storage[input].value;
   }
 };
 
 
 const subscribeToValue = (input, callback) => {
   if (!storage[input]) {
-    setStorage(input, undefined);
+    setValueInStorage(input, undefined);
   }
 
   if (storage[input] && storage[input].callbacks) {
@@ -52,38 +58,33 @@ const subscribeToValue = (input, callback) => {
 };
 
 
-const updateStorage = (input, callback) => {
-  setStorage(input, callback(storage[input].value));
+const updateValueInStorage = (input, callback) => {
+  let oldValue = searchForValueInStorage(input);
+  let newValue = callback(oldValue);
+  setValueInStorage(input, newValue);
 };
 
 
-const toggleStorage = function (input) {
-  updateStorage(function (value) {
+const toggleValueInStorage = function (input) {
+  updateValueInStorage(function (value) {
     return !value;
   });
 };
 
 
-const updatePersistentStorage = (input, value) => {
+const setPersistentStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
-    _updateStorage(key, input[key]);
+    _upsert(key, input[key]);
     persistentStorage[key] = input[key];
   }
   localStorage.mindful = JSON.stringify(persistentStorage);
 };
 
 
-const searchStorage = (input) => {
-  if (storage[input] !== undefined) {
-    return storage[input].value;
-  }
-};
-
-
-const clearStorage = (input) => {
+const clearValueFromStorage = (input) => {
   if (storage[input]) {
-    setStorage(input, undefined);
+    setValueInStorage(input, undefined);
   }
 
   if (persistentStorage[input]) {
@@ -119,16 +120,16 @@ const registerComponent = (component, ...keys) => {
 };
 
 
-setStorage(persistentStorage);
+setValueInStorage(persistentStorage);
 
 
 const mindful = registerComponent;
-mindful.set = setStorage;
-mindful.retain = updatePersistentStorage;
-mindful.update = updateStorage;
-mindful.get = searchStorage;
-mindful.forget = clearStorage;
-mindful.toggle = toggleStorage;
+mindful.set = setValueInStorage;
+mindful.get = searchForValueInStorage;
+mindful.retain = setPersistentStorage;
+mindful.update = updateValueInStorage;
+mindful.forget = clearValueFromStorage;
+mindful.toggle = toggleValueInStorage;
 mindful.subscribe = registerComponent;
 
 module.exports = mindful;
