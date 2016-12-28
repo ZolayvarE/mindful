@@ -4,6 +4,7 @@
   "description": "A user friendly state manager for React.",
   "main": "index.js",
   "scripts": {
+    "commit": "(git add . && git commit) || true && git push origin master || true",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
