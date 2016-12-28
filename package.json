@@ -1,6 +1,6 @@
 {
   "name": "mindful",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A user friendly state manager for React.",
   "main": "index.js",
   "scripts": {
