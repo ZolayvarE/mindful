@@ -1,5 +1,25 @@
 const storage = {};
 
+const persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
+
+const _updateStorage = (key, value) => {
+  if (storage[key] === undefined) {
+    storage[key] = {
+      value: null,
+      callbacks: [],
+    };
+  }
+
+  storage[key].value = value;
+  storage[key].callbacks.forEach((callback) => {
+    callback();
+  });
+};
+
+for (var key in persistentStorage) {
+  _updateStorage(key, persistentStorage[key]);
+}
+
 const validateInput = (input, value) => {
   if (typeof input === 'function') {
     throw new Error('Input cannot be a function!');
@@ -18,28 +38,35 @@ const subscribeToValue = (input, callback) => {
   if (storage[input] && storage[input].callbacks) {
     storage[input].callbacks.push(callback);
   } else {
-    throw new Error('Could not find the item: "' + input + '"" in storage');
+    throw new Error('Could not find the item: "' + input + '" in storage');
   }
-};
-
-const _updateStorage = (key, value) => {
-  if (storage[key] === undefined) {
-    storage[key] = {
-      value: null,
-      callbacks: [],
-    };
-  }
-
-  storage[key].value = value;
-  storage[key].callbacks.forEach((callback) => {
-    callback();
-  });
 };
 
 const updateStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
     _updateStorage(key, input[key]);
+  }
+};
+
+const updatePersistentStorage = (input, value) => {
+  input = validateInput(input, value);
+  for (var key in input) {
+    _updateStorage(key, input[key]);
+    persistentStorage[key] = input[key];
+  }
+  localStorage.mindful = JSON.stringify(persistentStorage);
+};
+
+const clearPersistentStorage = (input) => {
+  if (input === undefined) {
+    localStorage.removeItem('mindful');
+    for (var key in persistentStorage) {
+      delete persistentStorage[key];
+    }
+  } else {
+    delete persistentStorage[input];
+    localStorage.mindful = JSON.stringify(persistentStorage);
   }
 };
 
@@ -51,8 +78,16 @@ const searchStorage = (input) => {
   }
 };
 
+const clearStorage = (input) => {
+  if (storage[input]) {
+    delete storage[input];
+  } else if (persistentStorage[input]) {
+    delete persistentStorage[input];
+  }
+};
+
 const initializeReactComponent = (component, props, context, updater) => {
-  if (component.__proto__.name === '') {
+  if (!component.__proto__.name) {
     return component(props, context, updater);
   } else {
     return new component(props, context, updater);
@@ -78,9 +113,13 @@ const registerComponent = (component, ...keys) => {
 const mindful = registerComponent;
 mindful.set = updateStorage;
 mindful.get = searchStorage;
+mindful.remove = clearStorage;
+mindful.retain = updatePersistentStorage;
+mindful.forget = clearPersistentStorage;
 mindful.subscribe = registerComponent;
 
 module.exports = mindful;
+
 
 
 
