@@ -72,7 +72,7 @@ const toggleValueInStorage = function (input) {
 };
 
 
-const setPersistentStorage = (input, value) => {
+const persistValueInStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
     _upsert(key, input[key]);
@@ -126,7 +126,7 @@ setValueInStorage(persistentStorage);
 const mindful = registerComponent;
 mindful.set = setValueInStorage;
 mindful.get = searchForValueInStorage;
-mindful.retain = setPersistentStorage;
+mindful.retain = persistValueInStorage;
 mindful.update = updateValueInStorage;
 mindful.forget = clearValueFromStorage;
 mindful.toggle = toggleValueInStorage;
