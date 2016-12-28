@@ -2,23 +2,6 @@ const storage = {};
 
 const persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
 
-const _updateStorage = (key, value) => {
-  if (storage[key] === undefined) {
-    storage[key] = {
-      value: null,
-      callbacks: [],
-    };
-  }
-
-  storage[key].value = value;
-  storage[key].callbacks.forEach((callback) => {
-    callback();
-  });
-};
-
-for (var key in persistentStorage) {
-  _updateStorage(key, persistentStorage[key]);
-}
 
 const validateInput = (input, value) => {
   if (typeof input === 'function') {
@@ -34,12 +17,29 @@ const validateInput = (input, value) => {
   }
 };
 
+
+const _updateStorage = (key, value) => {
+  if (storage[key] === undefined) {
+    storage[key] = {
+      value: value,
+      callbacks: [],
+    };
+  } else {
+    storage[key].value = value;
+    storage[key].callbacks.forEach((callback) => {
+      callback();
+    });
+  }
+};
+
+
 const setStorage = (input, value) => {
   input = validateInput(input, value);
   for (var key in input) {
     _updateStorage(key, input[key]);
   }
 };
+
 
 const subscribeToValue = (input, callback) => {
   if (!storage[input]) {
@@ -51,15 +51,18 @@ const subscribeToValue = (input, callback) => {
   }
 };
 
+
 const updateStorage = (input, callback) => {
   setStorage(input, callback(storage[input].value));
 };
+
 
 const toggleStorage = function (input) {
   updateStorage(function (value) {
     return !value;
   });
 };
+
 
 const updatePersistentStorage = (input, value) => {
   input = validateInput(input, value);
@@ -70,11 +73,13 @@ const updatePersistentStorage = (input, value) => {
   localStorage.mindful = JSON.stringify(persistentStorage);
 };
 
+
 const searchStorage = (input) => {
   if (storage[input] !== undefined) {
     return storage[input].value;
   }
 };
+
 
 const clearStorage = (input) => {
   if (storage[input]) {
@@ -87,6 +92,7 @@ const clearStorage = (input) => {
   }
 };
 
+
 const initializeReactComponent = (component, props, context, updater) => {
   if (!component.__proto__.name) {
     return component(props, context, updater);
@@ -94,6 +100,7 @@ const initializeReactComponent = (component, props, context, updater) => {
     return new component(props, context, updater);
   }
 };
+
 
 const registerComponent = (component, ...keys) => {
   if (Array.isArray(keys[0])) {
@@ -110,6 +117,10 @@ const registerComponent = (component, ...keys) => {
     return saved;
   };
 };
+
+
+setStorage(persistentStorage);
+
 
 const mindful = registerComponent;
 mindful.set = setStorage;
