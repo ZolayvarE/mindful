@@ -1,7 +1,7 @@
 {
   "name": "mindful",
   "version": "1.0.0",
-  "description": "A state manager for React.",
+  "description": "A user friendly state manager for React.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
