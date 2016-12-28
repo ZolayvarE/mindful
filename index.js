@@ -1,6 +1,6 @@
 const storage = {};
 
-const persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
+const persistentStorage = JSON.parse(localStorage._mindful || '{}') || {};
 
 const _updateStorage = (key, value) => {
   if (storage[key] === undefined) {
@@ -55,18 +55,18 @@ const updatePersistentStorage = (input, value) => {
     _updateStorage(key, input[key]);
     persistentStorage[key] = input[key];
   }
-  localStorage.mindful = JSON.stringify(persistentStorage);
+  localStorage._mindful = JSON.stringify(persistentStorage);
 };
 
 const clearPersistentStorage = (input) => {
   if (input === undefined) {
-    localStorage.removeItem('mindful');
+    localStorage.removeItem('_mindful');
     for (var key in persistentStorage) {
       delete persistentStorage[key];
     }
   } else {
     delete persistentStorage[input];
-    localStorage.mindful = JSON.stringify(persistentStorage);
+    localStorage._mindful = JSON.stringify(persistentStorage);
   }
 };
 
