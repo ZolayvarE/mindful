@@ -54,7 +54,7 @@ const subscribeToValue = (input, callback) => {
   }
 
   if (storage[input] && storage[input].callbacks) {
-    storage[input].callbacks.push(callback);
+    storage[input].callbacks.unshift(callback);
   }
 };
 
