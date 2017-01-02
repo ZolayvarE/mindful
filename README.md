@@ -64,9 +64,7 @@ mindful.get('persistentValue') //=> Should return 20.
 
 
 ####Mindful.forget( *key* )
-Deletes the given key from the global storage.
-
-**(This trumps mindful.retain)**
+Deletes the given key from the global storage. *(This trumps mindful.retain)*
 
 
 ####Mindful.update( *key*, *callback* )
