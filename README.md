@@ -49,10 +49,13 @@ returns the value associated with the given key.
 mindful.set('color', 'red');
 mindful.get('color') //=> Should return 'red'.
 ```
+###Mindful.retain(*key*, *value*)
+Acts the same as Mindful.set, but the data persists after page reload.
 
+###Mindful.forget(*key*)
+Deletes the given key from the global storage.
+#####(This trumps mindful.retain)
 
-mindful.retain
 mindful.update
-mindful.forget
 mindful.toggle
 mindful.subscribe
