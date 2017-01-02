@@ -58,7 +58,8 @@ Acts the same as Mindful.set, but the data persists after page reload.
 
 ###Mindful.forget( *key* )
 Deletes the given key from the global storage.
-*(This trumps mindful.retain)*
+
+**(This trumps mindful.retain)**
 
 
 ###Mindful.update( *key*, *callback* )
@@ -70,10 +71,17 @@ mindful.set('number', 10);
 mindful.update('number', function (value) {
   return value * 2;
 })
-mindful.get('number') //=> Should return 'red'.
+mindful.get('number') //=> Should return 20.
 ```
 
 
-mindful.update
-mindful.toggle
+###Mindful.toggle( *key* )
+Inverses the boolean value stored at the given key.
+```js
+mindful.set('loggedIn', false);
+mindful.toggle('loggedIn');
+mindful.get('loggedIn') //=> Should return true.
+```
+
+
 mindful.subscribe
