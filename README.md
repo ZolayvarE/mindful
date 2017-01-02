@@ -44,6 +44,8 @@ export default mindful(NavBar, 'roomName');
 ##API
 
 ####Mindful( *reactComponent*, *[key1, key2, ...]* )
+Mindful itself is a function that wraps reactComponents passed into it, and rerenders them when any of the keys passed in change.
+
 
 ####Mindful.set( *key*, *value* ) 
 Stores the given key/value pair in Mindful's global storage
