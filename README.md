@@ -10,6 +10,7 @@ npm install mindful --save
 
 ##How to use
 
+The following example attaches Mindful to a plain stateless React component.
 ```jsx
 import React from 'react';
 import { Link } from 'react-router';
@@ -30,3 +31,8 @@ var NavBar = (props) => {
 export default mindful(NavBar, 'roomName');
 
 ```
+
+```js
+import mindful from 'mindful';
+```
+This exposes 
