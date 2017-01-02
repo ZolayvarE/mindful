@@ -90,6 +90,3 @@ mindful.set('loggedIn', false);
 mindful.toggle('loggedIn');
 mindful.get('loggedIn') //=> Should return true.
 ```
-
-
-mindful.subscribe
