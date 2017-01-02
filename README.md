@@ -40,8 +40,10 @@ import mindful from 'mindful';
 This exposes the Mindful API that has access to the following methods:
 
 
-#Mindful.set(*key*, *value*) sets the key value pair
-#Mindful.get(*key*) returns the value associated with the given key.
+###Mindful.set(*key*, *value*) 
+sets the key value pair
+###Mindful.get(*key*) 
+returns the value associated with the given key.
 
 
 mindful.retain
