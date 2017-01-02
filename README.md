@@ -14,14 +14,14 @@ The following example attaches Mindful to a plain stateless React component.
 ```jsx
 import React from 'react';
 import { Link } from 'react-router';
-import mindful from '../scripts/mindful';
+import mindful from 'mindful';
 
-var NavBar 
+var NavBar = (props) => {
   return (
     <div className='NavBar'>
       <h1 className='Logo'>
         <Link to='/'>
-          { mindful.get('roomName') || 'TableTale' }
+          { mindful.get('roomName') }
         </Link>
       </h1>
     </div>
