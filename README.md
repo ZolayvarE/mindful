@@ -16,7 +16,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import mindful from '../scripts/mindful';
 
-var NavBar = (props) => {
+var NavBar 
   return (
     <div className='NavBar'>
       <h1 className='Logo'>
@@ -39,8 +39,13 @@ import mindful from 'mindful';
 ```
 This exposes the Mindful API that has access to the following methods:
 
-Mindful.get(*value*)
-```js
-mindful.get('dogs') //=> Should return the value in global storage for the key dogs
-```
 
+#Mindful.set(*key*, *value*) sets the key value pair
+#Mindful.get(*key*) returns the value associated with the given key.
+
+
+mindful.retain
+mindful.update
+mindful.forget
+mindful.toggle
+mindful.subscribe
