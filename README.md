@@ -8,7 +8,7 @@ A user friendly library for globalization of React state management.
 npm install mindful --save
 ```
 
-##How to use
+##How to use (Overview)
 
 The following example attaches Mindful to a plain stateless React component.
 ```jsx
@@ -32,7 +32,10 @@ export default mindful(NavBar, 'roomName');
 
 ```
 
+##API
+
 ```js
 import mindful from 'mindful';
 ```
-This exposes 
+This exposes the Mindful API that has access to the following methods:
+
