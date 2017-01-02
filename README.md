@@ -44,7 +44,7 @@ This exposes the Mindful API that has access to the following methods:
 sets the key value pair
 ###Mindful.get(*key*) 
 returns the value associated with the given key.
-####Example
+**Example**
 ```js
 mindful.set('color', 'red');
 mindful.get('color') //=> Should return 'red'.
@@ -54,7 +54,18 @@ Acts the same as Mindful.set, but the data persists after page reload.
 
 ###Mindful.forget(*key*)
 Deletes the given key from the global storage.
-#####(This trumps mindful.retain)
+*(This trumps mindful.retain)*
+
+###Mindful.update(*key*, *callback*)
+Maps the given key/value pair in global storage based on the passed in callback.
+**Example**
+```js
+mindful.set('number', 10);
+mindful.update('number', function (value) {
+  return value * 2;
+})
+mindful.get('number') //=> Should return 'red'.
+```
 
 mindful.update
 mindful.toggle
