@@ -29,11 +29,4 @@ var NavBar = (props) => {
 
 export default mindful(NavBar, 'roomName');
 
-
-
-
-
-
-
-
 ```
