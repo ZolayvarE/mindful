@@ -8,6 +8,14 @@ A user friendly library for globalization of React state management.
 npm install mindful --save
 ```
 
+##Implementation
+###Importing
+```js
+import mindful from 'mindful';
+```
+This exposes the Mindful API that has access to a variety of [methods](https://github.com/ZolayvarE/mindful#api).
+###Subscribing
+
 ##Example Usage
 
 The following example attaches Mindful to a plain stateless React component.
@@ -32,10 +40,6 @@ export default mindful(NavBar, 'roomName');
 
 ```
 
-```js
-import mindful from 'mindful';
-```
-This exposes the Mindful API that has access to a variety of [methods](https://github.com/ZolayvarE/mindful#api).
 
 ##API
 
