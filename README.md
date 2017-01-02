@@ -44,6 +44,11 @@ This exposes the Mindful API that has access to the following methods:
 sets the key value pair
 ###Mindful.get(*key*) 
 returns the value associated with the given key.
+####Example
+```js
+mindful.set('color', 'red');
+mindful.get('color') //=> Should return 'red'.
+```
 
 
 mindful.retain
