@@ -1,7 +1,6 @@
 const storage = {};
-window._s = storage;
 
-const persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
+const persistentStorage = JSON.parse(localStorage._mindful || '{}') || {};
 
 
 const validateInput = (input, value) => {
@@ -79,7 +78,7 @@ const persistValueInStorage = (input, value) => {
     _upsert(key, input[key]);
     persistentStorage[key] = input[key];
   }
-  localStorage.mindful = JSON.stringify(persistentStorage);
+  localStorage._mindful = JSON.stringify(persistentStorage);
 };
 
 
@@ -90,7 +89,7 @@ const clearValueFromStorage = (input) => {
 
   if (persistentStorage[input]) {
     delete persistentStorage[input];
-    localStorage.mindful = JSON.stringify(persistentStorage);
+    localStorage._mindful = JSON.stringify(persistentStorage);
   }
 };
 

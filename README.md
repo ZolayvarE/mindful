@@ -32,13 +32,12 @@ export default mindful(NavBar, 'roomName');
 
 ```
 
-##API
-
 ```js
 import mindful from 'mindful';
 ```
-This exposes the Mindful API that has access to the following methods:
+This exposes the Mindful API that has access to a variety of [methods](https://github.com/ZolayvarE/mindful#api).
 
+##API
 
 ####Mindful.set( *key*, *value* ) 
 Stores the given key/value pair in Mindful's global storage
