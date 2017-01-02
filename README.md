@@ -45,7 +45,6 @@ Stores the given key/value pair in Mindful's global storage
 ####Mindful.get( *key* ) 
 Returns the value associated with the given key in storage.
 
-**Example**
 ```js
 mindful.set('color', 'red');
 mindful.get('color') //=> Should return 'red'.
@@ -54,7 +53,7 @@ mindful.get('color') //=> Should return 'red'.
 
 ####Mindful.retain( *key*, *value* )
 Acts the same as Mindful.set, but the data persists after page reload.
-**Example**
+
 ```js
 mindful.set('temporaryValue', 10);
 mindful.retain('persistentValue', 20);
@@ -73,7 +72,6 @@ Deletes the given key from the global storage.
 ####Mindful.update( *key*, *callback* )
 Maps the given key/value pair in global storage based on the passed in callback.
 
-**Example**
 ```js
 mindful.set('number', 10);
 mindful.update('number', function (value) {
