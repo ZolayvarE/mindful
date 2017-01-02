@@ -41,9 +41,9 @@ This exposes the Mindful API that has access to the following methods:
 
 
 ###Mindful.set( *key*, *value* ) 
-sets the key value pair
+Stores the given key/value pair in Mindful's global storage
 ###Mindful.get( *key* ) 
-returns the value associated with the given key.
+Returns the value associated with the given key in storage.
 
 **Example**
 ```js
@@ -54,6 +54,14 @@ mindful.get('color') //=> Should return 'red'.
 
 ###Mindful.retain( *key*, *value* )
 Acts the same as Mindful.set, but the data persists after page reload.
+**Example**
+```js
+mindful.set('temporaryValue', 10);
+mindful.retain('persistentValue', 20);
+// Page reloads
+mindful.get('temporaryValue') //=> Should return undefined.
+mindful.get('persistentValue') //=> Should return 20.
+```
 
 
 ###Mindful.forget( *key* )
