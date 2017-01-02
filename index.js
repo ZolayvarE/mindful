@@ -1,4 +1,5 @@
 const storage = {};
+window._s = storage;
 
 const persistentStorage = JSON.parse(localStorage.mindful || '{}') || {};
 
@@ -26,9 +27,9 @@ const _upsert = (key, value) => {
     };
   } else {
     storage[key].value = value;
-    storage[key].callbacks.forEach((callback) => {
-      callback();
-    });
+    while (storage[key].callbacks.length) {
+      storage[key].callbacks.pop()();
+    }
   }
 };
 
@@ -94,12 +95,28 @@ const clearValueFromStorage = (input) => {
 };
 
 
-const initializeReactComponent = (component, props, context, updater) => {
-  if (!component.__proto__.name) {
-    return component(props, context, updater);
-  } else {
-    return new component(props, context, updater);
+const mapGlobalStateToProps = (props, values) => {
+  var newProps = {};
+  for (var key in props) {
+    newProps[key] = props[key];
   }
+
+  values.forEach(function (value) {
+    newProps[value] = searchForValueInStorage(value);
+  });
+
+  return newProps;
+};
+
+
+const initializeReactComponent = (component, props, context, updater) => {
+  let initialized;
+  if (!component.__proto__.name) {
+    initialized = component(props, context, updater);
+  } else {
+    initialized = new component(props, context, updater);
+  }
+  return initialized;
 };
 
 
