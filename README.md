@@ -38,7 +38,7 @@ var MessageBox = (props) => {
   );
 };
 
-export default mindful(NavBar, 'message');
+export default mindful(MessageBox, 'message');
 
 ```
 
