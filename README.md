@@ -1,14 +1,14 @@
 #Mindful
 
-A user friendly library for globalization of React state management.
+A user friendly library for global management of React state.
 
 ##How to use
-Mindful can be installed using npm as follows:
+Mindful can be installed using npm:
 ```bash
 npm install mindful --save
 ```
 
-Then, Mindful must be imported as follows:
+Mindful must be imported as f
 ```js
 import mindful from 'mindful';
 ```
@@ -24,30 +24,32 @@ import React from 'react';
 import { Link } from 'react-router';
 import mindful from 'mindful';
 
-var NavBar = (props) => {
+var MessageBox = (props) => {
   return (
-    <div className='NavBar'>
-      <h1 className='Logo'>
-        <Link to='/'>
-          { mindful.get('roomName') }
-        </Link>
+    <div>
+      <h1>
+        { mindful.get('message') }
       </h1>
+      <form>
+        <input type="text" id="messageInput">
+        </input>
+      </form>
     </div>
   );
 };
 
-export default mindful(NavBar, 'roomName');
+export default mindful(NavBar, 'message');
 
 ```
 
 
-##API
+##API Reference
 
-####Mindful( *reactComponent*, *[key1, key2, ... ]* )
+####mindful( *reactComponent*, *[key1, key2, ... ]* )
 Mindful itself is a function that wraps React components passed into it, and rerenders them when any of the values, which are associated with the passed in keys, change.
 
 
-####Mindful.set( *key*, *value* ) 
+####mindful.set( *key*, *value* ) 
 Stores the given key/value pair in Mindful's global storage
 ####Mindful.get( *key* ) 
 Returns the value associated with the given key in storage.
@@ -58,7 +60,7 @@ mindful.get('color') //=> Should return 'red'.
 ```
 
 
-####Mindful.retain( *key*, *value* )
+####mindful.retain( *key*, *value* )
 Acts the same as Mindful.set, but the data persists after page reload.
 
 ```js
@@ -70,11 +72,11 @@ mindful.get('persistentValue') //=> Should return 20.
 ```
 
 
-####Mindful.forget( *key* )
+####mindful.forget( *key* )
 Deletes the given key from the global storage. *(This trumps* mindful.retain*)*
 
 
-####Mindful.update( *key*, *callback* )
+####mindful.update( *key*, *callback* )
 Maps the given key/value pair in global storage based on the passed in callback.
 
 ```js
@@ -86,7 +88,7 @@ mindful.get('number') //=> Should return 20.
 ```
 
 
-####Mindful.toggle( *key* )
+####mindful.toggle( *key* )
 Inverses the boolean value stored at the given key.
 ```js
 mindful.set('loggedIn', false);
