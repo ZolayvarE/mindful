@@ -52,7 +52,7 @@ Mindful itself is a function that wraps React components passed into it, and rer
 ####mindful.set( *key*, *value* ) 
 Stores the given key/value pair in Mindful's global storage
 
-####Mindful.get( *key* ) 
+####mindful.get( *key* ) 
 Returns the value associated with the given key in storage.
 
 ```js
