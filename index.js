@@ -2,7 +2,6 @@ const storage = {};
 
 const persistentStorage = JSON.parse(localStorage._mindful || '{}') || {};
 
-
 const validateInput = (input, value) => {
   if (typeof input === 'function') {
     throw new Error('Input cannot be a function!');
@@ -22,13 +21,15 @@ const _upsert = (key, value) => {
   if (storage[key] === undefined) {
     storage[key] = {
       value: value,
-      callbacks: [],
+      subscribers: new Map,
     };
   } else {
     storage[key].value = value;
-    while (storage[key].callbacks.length) {
-      storage[key].callbacks.pop()();
-    }
+    storage[key].subscribers.forEach((subscriber) => {
+      if (subscriber.isStateless() || subscriber.isMounted()) {
+        subscriber.render();
+      }
+    });
   }
 };
 
@@ -47,13 +48,21 @@ const searchForValueInStorage = (input) => {
 };
 
 
-const subscribeToValue = (input, callback) => {
-  if (!storage[input]) {
-    setValueInStorage(input, undefined);
+const subscribeToValue = (component, key, updater, instance, callback) => {
+  if (!storage[key]) {
+    setValueInStorage(key, undefined);
   }
 
-  if (storage[input] && storage[input].callbacks) {
-    storage[input].callbacks.unshift(callback);
+  if (storage[key] && storage[key].subscribers) {
+    storage[key].subscribers.set(component, {
+      render: callback,
+      isMounted: () => {
+        return updater.isMounted(instance);
+      },
+      isStateless: () => {
+        return !component.__proto__.name;
+      }
+    });
   }
 };
 
@@ -123,11 +132,10 @@ const registerComponent = (component, ...keys) => {
   if (Array.isArray(keys[0])) {
     keys = keys[0];
   }
-
   return (props, context, updater) => {
     var saved = initializeReactComponent(component, props, context, updater);
     keys.forEach((key) => {
-      subscribeToValue(key, () => {
+      subscribeToValue(component, key, updater, saved, () => {
         updater.enqueueForceUpdate(saved._owner ? saved._owner._instance : saved);
       });
     });
