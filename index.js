@@ -1,3 +1,5 @@
+'use strict';
+
 const storage = {};
 
 const persistentStorage = JSON.parse(localStorage._mindful || '{}') || {};
