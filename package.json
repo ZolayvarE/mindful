@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "patch": "npm run commit && npm version patch && npm publish",
+    "minor": "npm run commit && npm version minor && npm publish",
     "commit": "(git add . || true) && (git commit || true) && (git push origin master || true)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
