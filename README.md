@@ -8,7 +8,7 @@ Mindful can be installed using npm:
 npm install mindful --save
 ```
 
-Mindful must be imported as f
+Mindful must be imported as follows
 ```js
 import mindful from 'mindful';
 ```
