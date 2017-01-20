@@ -19,7 +19,7 @@ This exposes the Mindful API that has access to a variety of [methods](https://g
 ##Example Usage
 
 The following example attaches Mindful to a plain stateless React component.
-```jsx
+```js
 import React from 'react';
 import { Link } from 'react-router';
 import mindful from 'mindful';
