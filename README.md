@@ -31,7 +31,7 @@ var MessageBox = (props) => {
         { mindful.get('message') }
       </h1>
       <form onSubmit={() => {
-        var newMessage = document.getElementById('messageInput');
+        var newMessage = document.getElementById('messageInput').value;
         mindful.set('message', newMessage);
       }}>
         <input type="text" id="messageInput">
